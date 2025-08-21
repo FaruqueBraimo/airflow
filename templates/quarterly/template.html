@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quarterly Statement</title>
+    <style>
+        body {
+            font-family: Georgia, serif;
+            font-size: 11pt;
+            line-height: 1.5;
+            color: #2c3e50;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .header {
+            border-bottom: 3px solid #34495e;
+            padding-bottom: 25px;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+        
+        .company-logo {
+            font-size: 28pt;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 15px;
+        }
+        
+        .statement-title {
+            font-size: 18pt;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 15px 0;
+        }
+        
+        .customer-section {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        
+        .customer-info, .statement-info {
+            width: 45%;
+        }
+        
+        .section {
+            margin: 35px 0;
+            page-break-inside: avoid;
+        }
+        
+        .section-title {
+            font-size: 14pt;
+            font-weight: bold;
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .quarter-highlight {
+            background-color: #ecf0f1;
+            border: 2px solid #34495e;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .quarter-title {
+            font-size: 16pt;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #bdc3c7;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 9pt;
+            letter-spacing: 0.5px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .amount {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+        
+        .total-row {
+            font-weight: bold;
+            background-color: #ecf0f1 !important;
+            border-top: 2px solid #34495e;
+        }
+        
+        .performance-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 18pt;
+            font-weight: bold;
+            color: #34495e;
+        }
+        
+        .metric-label {
+            font-size: 10pt;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        
+        .footer {
+            margin-top: 60px;
+            padding-top: 25px;
+            border-top: 2px solid #34495e;
+            font-size: 9pt;
+            color: #7f8c8d;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="company-logo">Financial Services Corp</div>
+        <div class="statement-title">Quarterly Financial Statement</div>
+        
+        <div class="quarter-highlight">
+            <div class="quarter-title">Q{{ (statement_date | date('%m') | int - 1) // 3 + 1 }} {{ statement_date | date('%Y') }}</div>
+            <div>Comprehensive Financial Review</div>
+        </div>
+    </div>
+    
+    <!-- Customer Information -->
+    <div class="customer-section">
+        <div class="customer-info">
+            <h3 style="color: #34495e;">Account Holder</h3>
+            <strong>{{ customer_info.name }}</strong><br>
+            {% if customer_info.address %}
+            {{ customer_info.address.street }}<br>
+            {{ customer_info.address.city }}, {{ customer_info.address.state }} {{ customer_info.address.zip }}<br>
+            {% endif %}
+            {% if customer_info.email %}
+            Email: {{ customer_info.email }}
+            {% endif %}
+        </div>
+        
+        <div class="statement-info">
+            <h3 style="color: #34495e;">Statement Details</h3>
+            <strong>Statement Date:</strong> {{ statement_date | date('long') }}<br>
+            <strong>Customer ID:</strong> {{ customer_id }}<br>
+            <strong>Statement ID:</strong> {{ statement_id }}<br>
+            <strong>Reporting Period:</strong> Quarterly<br>
+            <strong>Currency:</strong> {{ metadata.currency or 'USD' }}
+        </div>
+    </div>
+    
+    <!-- Performance Metrics -->
+    {% if totals %}
+    <div class="section">
+        <div class="section-title">Quarterly Performance Overview</div>
+        <div class="performance-metrics">
+            {% if totals.total_credits %}
+            <div class="metric-card">
+                <div class="metric-value">{{ totals.total_credits | currency(metadata.currency or 'USD') }}</div>
+                <div class="metric-label">Total Inflows</div>
+            </div>
+            {% endif %}
+            {% if totals.total_debits %}
+            <div class="metric-card">
+                <div class="metric-value">{{ totals.total_debits | currency(metadata.currency or 'USD') }}</div>
+                <div class="metric-label">Total Outflows</div>
+            </div>
+            {% endif %}
+            {% if totals.net_change %}
+            <div class="metric-card">
+                <div class="metric-value">{{ totals.net_change | currency(metadata.currency or 'USD') }}</div>
+                <div class="metric-label">Net Change</div>
+            </div>
+            {% endif %}
+            {% if totals.transaction_count %}
+            <div class="metric-card">
+                <div class="metric-value">{{ totals.transaction_count }}</div>
+                <div class="metric-label">Total Transactions</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Account Portfolio -->
+    {% if balances %}
+    <div class="section">
+        <div class="section-title">Account Portfolio Summary</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Account Type</th>
+                    <th>Opening Balance</th>
+                    <th>Closing Balance</th>
+                    <th>Net Change</th>
+                    <th>% Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for account_type, balance in balances.items() %}
+                {% set net_change = balance.closing_balance - balance.opening_balance %}
+                {% set pct_change = (net_change / balance.opening_balance * 100) if balance.opening_balance != 0 else 0 %}
+                <tr>
+                    <td><strong>{{ account_type | title }}</strong></td>
+                    <td class="amount">{{ balance.opening_balance | currency(metadata.currency or 'USD') }}</td>
+                    <td class="amount">{{ balance.closing_balance | currency(metadata.currency or 'USD') }}</td>
+                    <td class="amount" style="color: {{ 'green' if net_change >= 0 else 'red' }}">
+                        {{ net_change | currency(metadata.currency or 'USD') }}
+                    </td>
+                    <td class="amount" style="color: {{ 'green' if pct_change >= 0 else 'red' }}">
+                        {{ pct_change | round(2) }}%
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    
+    <!-- Transaction Analysis -->
+    {% if transactions %}
+    <div class="section">
+        <div class="section-title">Transaction Analysis</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Reference</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.date | date('short') }}</td>
+                    <td>{{ transaction.description }}</td>
+                    <td>{{ transaction.category or 'Uncategorized' }}</td>
+                    <td>{{ transaction.reference or '-' }}</td>
+                    <td class="amount" style="color: {{ 'green' if transaction.amount >= 0 else 'red' }}">
+                        {{ transaction.amount | currency(metadata.currency or 'USD') }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    
+    <!-- Quarterly Summary -->
+    <div class="section">
+        <div class="section-title">Executive Summary</div>
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #34495e;">
+            <p style="font-size: 12pt; margin-bottom: 15px;"><strong>Quarter Performance:</strong></p>
+            <p>This quarterly statement provides a comprehensive overview of your financial activities for the reporting period. 
+            {% if totals.net_change %}
+                {% if totals.net_change >= 0 %}
+                Your accounts showed a positive net change of {{ totals.net_change | currency(metadata.currency or 'USD') }}.
+                {% else %}
+                Your accounts showed a net change of {{ totals.net_change | currency(metadata.currency or 'USD') }}.
+                {% endif %}
+            {% endif %}
+            {% if totals.transaction_count %}
+                A total of {{ totals.transaction_count }} transactions were processed during this quarter.
+            {% endif %}
+            </p>
+            
+            <p><strong>Key Observations:</strong></p>
+            <ul>
+                <li>All transactions have been processed and reconciled</li>
+                <li>Account balances reflect end-of-quarter positions</li>
+                <li>Performance metrics are calculated based on quarterly activity</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <p><strong>Financial Services Corp | Quarterly Statement</strong></p>
+        <p>Generated on {{ metadata.processed_timestamp | date('long') if metadata.processed_timestamp else now | date('long') }}</p>
+        <p>Template Version: {{ metadata.template_version or '1.0' }} | Statement Type: {{ statement_type | title }}</p>
+        <p>This document contains confidential and proprietary information. Distribution is restricted to authorized recipients only.</p>
+        <p>For questions or concerns, please contact our client services team at 1-800-XXX-XXXX</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Statement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .header {
+            border-bottom: 2px solid #2c5f7d;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .company-logo {
+            font-size: 24pt;
+            font-weight: bold;
+            color: #2c5f7d;
+            margin-bottom: 10px;
+        }
+        
+        .statement-title {
+            font-size: 16pt;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .customer-info {
+            float: left;
+            width: 45%;
+        }
+        
+        .statement-info {
+            float: right;
+            width: 45%;
+            text-align: right;
+        }
+        
+        .clear {
+            clear: both;
+        }
+        
+        .section {
+            margin: 30px 0;
+        }
+        
+        .section-title {
+            font-size: 12pt;
+            font-weight: bold;
+            background-color: #f5f5f5;
+            padding: 8px;
+            border-left: 4px solid #2c5f7d;
+            margin-bottom: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        .amount {
+            text-align: right;
+            font-family: monospace;
+        }
+        
+        .total-row {
+            font-weight: bold;
+            background-color: #f8f9fa;
+        }
+        
+        .summary-box {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 8pt;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="company-logo">Financial Services Corp</div>
+        <div class="statement-title">Monthly Financial Statement</div>
+        
+        <div class="customer-info">
+            <strong>{{ customer_info.name }}</strong><br>
+            {% if customer_info.address %}
+            {{ customer_info.address.street }}<br>
+            {{ customer_info.address.city }}, {{ customer_info.address.state }} {{ customer_info.address.zip }}
+            {% endif %}
+        </div>
+        
+        <div class="statement-info">
+            <strong>Statement Date:</strong> {{ statement_date | date('long') }}<br>
+            <strong>Customer ID:</strong> {{ customer_id }}<br>
+            <strong>Statement ID:</strong> {{ statement_id }}<br>
+            <strong>Period:</strong> Monthly
+        </div>
+        
+        <div class="clear"></div>
+    </div>
+    
+    <!-- Account Summary -->
+    {% if balances %}
+    <div class="section">
+        <div class="section-title">Account Summary</div>
+        <div class="summary-box">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Account Type</th>
+                        <th class="amount">Opening Balance</th>
+                        <th class="amount">Closing Balance</th>
+                        <th class="amount">Net Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for account_type, balance in balances.items() %}
+                    <tr>
+                        <td>{{ account_type | title }}</td>
+                        <td class="amount">{{ balance.opening_balance | currency(metadata.currency or 'USD') }}</td>
+                        <td class="amount">{{ balance.closing_balance | currency(metadata.currency or 'USD') }}</td>
+                        <td class="amount">{{ (balance.closing_balance - balance.opening_balance) | currency(metadata.currency or 'USD') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Transaction Details -->
+    {% if transactions %}
+    <div class="section">
+        <div class="section-title">Transaction Details</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Reference</th>
+                    <th class="amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.date | date('short') }}</td>
+                    <td>{{ transaction.description }}</td>
+                    <td>{{ transaction.category or '-' }}</td>
+                    <td>{{ transaction.reference or '-' }}</td>
+                    <td class="amount">{{ transaction.amount | currency(metadata.currency or 'USD') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    
+    <!-- Financial Summary -->
+    {% if totals %}
+    <div class="section">
+        <div class="section-title">Monthly Summary</div>
+        <div class="summary-box">
+            <table>
+                <tbody>
+                    {% if totals.total_credits %}
+                    <tr>
+                        <td><strong>Total Credits:</strong></td>
+                        <td class="amount"><strong>{{ totals.total_credits | currency(metadata.currency or 'USD') }}</strong></td>
+                    </tr>
+                    {% endif %}
+                    {% if totals.total_debits %}
+                    <tr>
+                        <td><strong>Total Debits:</strong></td>
+                        <td class="amount"><strong>{{ totals.total_debits | currency(metadata.currency or 'USD') }}</strong></td>
+                    </tr>
+                    {% endif %}
+                    {% if totals.net_change %}
+                    <tr>
+                        <td><strong>Net Change:</strong></td>
+                        <td class="amount"><strong>{{ totals.net_change | currency(metadata.currency or 'USD') }}</strong></td>
+                    </tr>
+                    {% endif %}
+                    {% if totals.transaction_count %}
+                    <tr>
+                        <td><strong>Total Transactions:</strong></td>
+                        <td class="amount"><strong>{{ totals.transaction_count }}</strong></td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Footer -->
+    <div class="footer">
+        <p>This statement was generated on {{ metadata.processed_timestamp | date('long') if metadata.processed_timestamp else now | date('long') }}.</p>
+        <p>Template Version: {{ metadata.template_version or '1.0' }} | Statement Type: {{ statement_type | title }}</p>
+        <p>For questions about this statement, please contact customer service at 1-800-XXX-XXXX.</p>
+    </div>
+</body>
+</html>

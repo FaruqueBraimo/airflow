@@ -1,0 +1,68 @@
+{
+  "statement_id": "STMT-2024-001",
+  "customer_id": "CUST-12345",
+  "statement_date": "2024-01-31T23:59:59Z",
+  "statement_type": "monthly",
+  "customer_info": {
+    "customer_id": "CUST-12345",
+    "name": "John Doe",
+    "address": {
+      "street": "123 Main Street",
+      "city": "Anytown",
+      "state": "CA",
+      "zip": "12345"
+    },
+    "email": "john.doe@email.com",
+    "phone": "+1-555-123-4567"
+  },
+  "transactions": [
+    {
+      "transaction_id": "TXN-001",
+      "date": "2024-01-15T10:30:00Z",
+      "description": "Direct Deposit - Salary",
+      "amount": 3500.00,
+      "category": "Income",
+      "reference": "PAY-001"
+    },
+    {
+      "transaction_id": "TXN-002",
+      "date": "2024-01-20T14:15:00Z",
+      "description": "Grocery Store Purchase",
+      "amount": -125.50,
+      "category": "Food",
+      "reference": "POS-002"
+    },
+    {
+      "transaction_id": "TXN-003",
+      "date": "2024-01-25T09:00:00Z",
+      "description": "Utility Bill Payment",
+      "amount": -89.25,
+      "category": "Utilities",
+      "reference": "BILL-003"
+    }
+  ],
+  "balances": {
+    "checking": {
+      "opening_balance": 1500.00,
+      "closing_balance": 4785.25,
+      "currency": "USD"
+    },
+    "savings": {
+      "opening_balance": 5000.00,
+      "closing_balance": 5000.00,
+      "currency": "USD"
+    }
+  },
+  "totals": {
+    "total_credits": 3500.00,
+    "total_debits": 214.75,
+    "net_change": 3285.25,
+    "transaction_count": 3
+  },
+  "metadata": {
+    "template_name": "monthly",
+    "template_version": "1.0",
+    "currency": "USD",
+    "processing_timestamp": "2024-01-31T23:59:59Z"
+  }
+}

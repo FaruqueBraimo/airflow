@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annual Financial Report</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 12pt;
+            line-height: 1.6;
+            color: #1a1a1a;
+            margin: 0;
+            padding: 25px;
+            background: #fefefe;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px double #8b4513;
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .company-logo {
+            font-size: 32pt;
+            font-weight: bold;
+            color: #8b4513;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .statement-title {
+            font-size: 22pt;
+            font-weight: bold;
+            color: #2c2c2c;
+            margin: 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .year-highlight {
+            background: linear-gradient(135deg, #f4f1e8, #ede0c8);
+            border: 2px solid #8b4513;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .year-title {
+            font-size: 20pt;
+            font-weight: bold;
+            color: #8b4513;
+            margin-bottom: 10px;
+        }
+        
+        .customer-section {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            background-color: #f9f7f4;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #d4c5a9;
+        }
+        
+        .customer-info, .statement-info {
+            width: 45%;
+        }
+        
+        .section {
+            margin: 45px 0;
+            page-break-inside: avoid;
+        }
+        
+        .section-title {
+            font-size: 16pt;
+            font-weight: bold;
+            background: linear-gradient(135deg, #8b4513, #a0522d);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .executive-summary {
+            background: linear-gradient(135deg, #f4f1e8, #ede0c8);
+            border: 2px solid #8b4513;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 35px 0;
+        }
+        
+        .kpi-card {
+            background: linear-gradient(135deg, #ffffff, #f8f6f1);
+            border: 2px solid #d4c5a9;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .kpi-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .kpi-value {
+            font-size: 22pt;
+            font-weight: bold;
+            color: #8b4513;
+            margin-bottom: 8px;
+        }
+        
+        .kpi-label {
+            font-size: 11pt;
+            color: #5d4e37;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .kpi-sublabel {
+            font-size: 9pt;
+            color: #8b7355;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #d4c5a9;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #8b4513, #a0522d);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 10pt;
+            letter-spacing: 0.5px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #faf8f5;
+        }
+        
+        tr:hover {
+            background-color: #f4f1e8;
+        }
+        
+        .amount {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 11pt;
+        }
+        
+        .total-row {
+            font-weight: bold;
+            background: linear-gradient(135deg, #f4f1e8, #ede0c8) !important;
+            border-top: 2px solid #8b4513;
+        }
+        
+        .chart-placeholder {
+            height: 200px;
+            background: linear-gradient(135deg, #f9f7f4, #f4f1e8);
+            border: 2px dashed #d4c5a9;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b7355;
+            font-style: italic;
+            margin: 25px 0;
+        }
+        
+        .footer {
+            margin-top: 80px;
+            padding-top: 30px;
+            border-top: 3px double #8b4513;
+            font-size: 10pt;
+            color: #5d4e37;
+            text-align: center;
+            line-height: 1.8;
+        }
+        
+        .signature-section {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .signature-box {
+            width: 300px;
+            text-align: center;
+            border-top: 2px solid #8b4513;
+            padding-top: 10px;
+        }
+        
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 72pt;
+            color: rgba(139, 69, 19, 0.05);
+            z-index: -1;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="watermark">ANNUAL REPORT</div>
+    
+    <!-- Header -->
+    <div class="header">
+        <div class="company-logo">Financial Services Corp</div>
+        <div class="statement-title">Annual Financial Report</div>
+        
+        <div class="year-highlight">
+            <div class="year-title">{{ statement_date | date('%Y') }}</div>
+            <div style="font-size: 14pt; color: #5d4e37;">Comprehensive Annual Financial Review</div>
+        </div>
+    </div>
+    
+    <!-- Customer Information -->
+    <div class="customer-section">
+        <div class="customer-info">
+            <h3 style="color: #8b4513; margin-top: 0;">Account Holder Information</h3>
+            <p style="font-size: 14pt;"><strong>{{ customer_info.name }}</strong></p>
+            {% if customer_info.address %}
+            <p>
+                {{ customer_info.address.street }}<br>
+                {{ customer_info.address.city }}, {{ customer_info.address.state }} {{ customer_info.address.zip }}<br>
+            </p>
+            {% endif %}
+            {% if customer_info.email %}
+            <p><strong>Email:</strong> {{ customer_info.email }}</p>
+            {% endif %}
+            {% if customer_info.phone %}
+            <p><strong>Phone:</strong> {{ customer_info.phone }}</p>
+            {% endif %}
+        </div>
+        
+        <div class="statement-info">
+            <h3 style="color: #8b4513; margin-top: 0;">Report Details</h3>
+            <p><strong>Report Date:</strong> {{ statement_date | date('long') }}</p>
+            <p><strong>Customer ID:</strong> {{ customer_id }}</p>
+            <p><strong>Report ID:</strong> {{ statement_id }}</p>
+            <p><strong>Reporting Period:</strong> Annual ({{ statement_date | date('%Y') }})</p>
+            <p><strong>Base Currency:</strong> {{ metadata.currency or 'USD' }}</p>
+            <p><strong>Report Type:</strong> Comprehensive Annual Review</p>
+        </div>
+    </div>
+    
+    <!-- Executive Summary -->
+    <div class="executive-summary">
+        <h2 style="color: #8b4513; text-align: center; margin-top: 0;">Executive Summary</h2>
+        <p style="font-size: 13pt; text-align: justify; margin-bottom: 20px;">
+            This annual financial report provides a comprehensive overview of your financial position and activity for the year {{ statement_date | date('%Y') }}. 
+            The report includes detailed analysis of account performance, transaction patterns, and year-over-year growth metrics.
+        </p>
+        
+        {% if totals.net_change %}
+        <p style="font-size: 13pt; text-align: justify;">
+            <strong>Annual Performance Highlights:</strong> 
+            {% if totals.net_change >= 0 %}
+            Your portfolio demonstrated positive growth with a net increase of {{ totals.net_change | currency(metadata.currency or 'USD') }} over the reporting period.
+            {% else %}
+            Your portfolio experienced a net change of {{ totals.net_change | currency(metadata.currency or 'USD') }} over the reporting period.
+            {% endif %}
+            {% if totals.transaction_count %}
+            This result reflects {{ totals.transaction_count }} individual transactions processed throughout the year.
+            {% endif %}
+        </p>
+        {% endif %}
+    </div>
+    
+    <!-- Key Performance Indicators -->
+    {% if totals %}
+    <div class="section">
+        <div class="section-title">Key Performance Indicators</div>
+        <div class="kpi-grid">
+            {% if totals.total_credits %}
+            <div class="kpi-card">
+                <div class="kpi-value">{{ totals.total_credits | currency(metadata.currency or 'USD') }}</div>
+                <div class="kpi-label">Total Annual Inflows</div>
+                <div class="kpi-sublabel">All credit transactions</div>
+            </div>
+            {% endif %}
+            {% if totals.total_debits %}
+            <div class="kpi-card">
+                <div class="kpi-value">{{ totals.total_debits | currency(metadata.currency or 'USD') }}</div>
+                <div class="kpi-label">Total Annual Outflows</div>
+                <div class="kpi-sublabel">All debit transactions</div>
+            </div>
+            {% endif %}
+            {% if totals.net_change %}
+            <div class="kpi-card">
+                <div class="kpi-value" style="color: {{ 'green' if totals.net_change >= 0 else 'red' }}">
+                    {{ totals.net_change | currency(metadata.currency or 'USD') }}
+                </div>
+                <div class="kpi-label">Net Annual Change</div>
+                <div class="kpi-sublabel">Year-over-year growth</div>
+            </div>
+            {% endif %}
+            {% if totals.transaction_count %}
+            <div class="kpi-card">
+                <div class="kpi-value">{{ totals.transaction_count }}</div>
+                <div class="kpi-label">Total Transactions</div>
+                <div class="kpi-sublabel">Annual activity volume</div>
+            </div>
+            {% endif %}
+            {% if balances %}
+            <div class="kpi-card">
+                <div class="kpi-value">{{ balances | length }}</div>
+                <div class="kpi-label">Active Accounts</div>
+                <div class="kpi-sublabel">Portfolio diversification</div>
+            </div>
+            {% endif %}
+            {% if totals.total_credits and totals.total_debits %}
+            <div class="kpi-card">
+                <div class="kpi-value">{{ ((totals.total_credits / (totals.total_credits + totals.total_debits)) * 100) | round(1) }}%</div>
+                <div class="kpi-label">Inflow Ratio</div>
+                <div class="kpi-sublabel">Credits as % of total volume</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Portfolio Analysis -->
+    {% if balances %}
+    <div class="section">
+        <div class="section-title">Annual Portfolio Analysis</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Account Category</th>
+                    <th>Opening Balance<br><small>(Jan 1, {{ statement_date | date('%Y') }})</small></th>
+                    <th>Closing Balance<br><small>(Dec 31, {{ statement_date | date('%Y') }})</small></th>
+                    <th>Annual Change</th>
+                    <th>Growth Rate</th>
+                    <th>Portfolio Weight</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set total_closing = balances.values() | map(attribute='closing_balance') | sum %}
+                {% for account_type, balance in balances.items() %}
+                {% set net_change = balance.closing_balance - balance.opening_balance %}
+                {% set growth_rate = (net_change / balance.opening_balance * 100) if balance.opening_balance != 0 else 0 %}
+                {% set portfolio_weight = (balance.closing_balance / total_closing * 100) if total_closing != 0 else 0 %}
+                <tr>
+                    <td><strong>{{ account_type | title }}</strong></td>
+                    <td class="amount">{{ balance.opening_balance | currency(metadata.currency or 'USD') }}</td>
+                    <td class="amount">{{ balance.closing_balance | currency(metadata.currency or 'USD') }}</td>
+                    <td class="amount" style="color: {{ 'green' if net_change >= 0 else 'red' }}">
+                        {{ net_change | currency(metadata.currency or 'USD') }}
+                    </td>
+                    <td class="amount" style="color: {{ 'green' if growth_rate >= 0 else 'red' }}">
+                        {{ growth_rate | round(2) }}%
+                    </td>
+                    <td class="amount">{{ portfolio_weight | round(1) }}%</td>
+                </tr>
+                {% endfor %}
+                <tr class="total-row">
+                    <td><strong>PORTFOLIO TOTAL</strong></td>
+                    <td class="amount"><strong>{{ balances.values() | map(attribute='opening_balance') | sum | currency(metadata.currency or 'USD') }}</strong></td>
+                    <td class="amount"><strong>{{ total_closing | currency(metadata.currency or 'USD') }}</strong></td>
+                    <td class="amount"><strong>{{ (total_closing - (balances.values() | map(attribute='opening_balance') | sum)) | currency(metadata.currency or 'USD') }}</strong></td>
+                    <td class="amount"><strong>{{ (((total_closing - (balances.values() | map(attribute='opening_balance') | sum)) / (balances.values() | map(attribute='opening_balance') | sum)) * 100) | round(2) }}%</strong></td>
+                    <td class="amount"><strong>100.0%</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    
+    <!-- Transaction History Summary -->
+    {% if transactions %}
+    <div class="section">
+        <div class="section-title">Annual Transaction Summary</div>
+        
+        <div class="chart-placeholder">
+            [Transaction Volume Chart - Implementation Required]<br>
+            <small>Monthly breakdown of transaction activity throughout {{ statement_date | date('%Y') }}</small>
+        </div>
+        
+        <h4 style="color: #8b4513;">Recent Notable Transactions</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Reference</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions[:20] %}  <!-- Show top 20 transactions -->
+                <tr>
+                    <td>{{ transaction.date | date('short') }}</td>
+                    <td>{{ transaction.description }}</td>
+                    <td>{{ transaction.category or 'Uncategorized' }}</td>
+                    <td>{{ transaction.reference or '-' }}</td>
+                    <td class="amount" style="color: {{ 'green' if transaction.amount >= 0 else 'red' }}">
+                        {{ transaction.amount | currency(metadata.currency or 'USD') }}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% if transactions | length > 20 %}
+                <tr style="background-color: #f4f1e8; font-style: italic;">
+                    <td colspan="5" style="text-align: center; padding: 20px;">
+                        ... and {{ (transactions | length) - 20 }} additional transactions throughout the year
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    
+    <!-- Annual Insights -->
+    <div class="section">
+        <div class="section-title">Annual Financial Insights</div>
+        <div style="background-color: #faf8f5; padding: 30px; border-radius: 12px; border: 1px solid #d4c5a9;">
+            <h4 style="color: #8b4513; margin-top: 0;">Year {{ statement_date | date('%Y') }} Performance Analysis</h4>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 25px 0;">
+                <div>
+                    <h5 style="color: #8b4513;">Financial Health Indicators</h5>
+                    <ul style="line-height: 2;">
+                        <li>Portfolio diversification maintained across {{ balances | length if balances else 0 }} account categories</li>
+                        <li>Transaction volume: {{ totals.transaction_count if totals.transaction_count else 0 }} annual transactions</li>
+                        <li>Average transaction size: {{ (totals.total_credits + totals.total_debits) / totals.transaction_count | currency(metadata.currency or 'USD') if totals.transaction_count else 'N/A' }}</li>
+                        <li>Account activity level: {{ 'High' if totals.transaction_count > 50 else 'Moderate' if totals.transaction_count > 20 else 'Low' }}</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 style="color: #8b4513;">Recommendations for {{ (statement_date | date('%Y') | int) + 1 }}</h5>
+                    <ul style="line-height: 2;">
+                        <li>Continue monitoring account balance trends</li>
+                        <li>Review transaction categorization for better reporting</li>
+                        <li>Consider portfolio optimization opportunities</li>
+                        <li>Maintain regular statement review schedule</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <p style="font-style: italic; text-align: center; margin-top: 30px; color: #5d4e37;">
+                "This annual report reflects your commitment to sound financial management throughout {{ statement_date | date('%Y') }}."
+            </p>
+        </div>
+    </div>
+    
+    <!-- Signature Section -->
+    <div class="signature-section">
+        <div class="signature-box">
+            <p style="margin: 0; font-weight: bold;">Financial Services Corp</p>
+            <p style="margin: 5px 0 0 0; font-size: 10pt;">Account Management Team</p>
+        </div>
+        <div style="text-align: right;">
+            <p style="margin: 0; font-size: 11pt;">Report Generated: {{ metadata.processed_timestamp | date('long') if metadata.processed_timestamp else now | date('long') }}</p>
+            <p style="margin: 5px 0 0 0; font-size: 10pt;">Document Version: {{ metadata.template_version or '1.0' }}</p>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <p><strong>FINANCIAL SERVICES CORP | ANNUAL FINANCIAL REPORT {{ statement_date | date('%Y') }}</strong></p>
+        <p>This comprehensive annual report has been prepared in accordance with standard financial reporting practices.</p>
+        <p>All amounts are expressed in {{ metadata.currency or 'USD' }} unless otherwise noted. Past performance does not guarantee future results.</p>
+        <p>This document contains confidential and proprietary information. Unauthorized distribution is strictly prohibited.</p>
+        <p><strong>Client Services:</strong> 1-800-XXX-XXXX | <strong>Website:</strong> www.financialservicescorp.com | <strong>Email:</strong> support@financialservicescorp.com</p>
+        <p style="margin-top: 20px; font-size: 9pt; color: #8b7355;">
+            © {{ statement_date | date('%Y') }} Financial Services Corp. All rights reserved. This report is generated using secure, automated systems with enterprise-grade data protection.
+        </p>
+    </div>
+</body>
+</html>
