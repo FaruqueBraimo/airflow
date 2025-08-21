@@ -8,7 +8,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).parent.parent
 TEMPLATES_DIR = PROJECT_ROOT / "templates"
 LOGS_DIR = PROJECT_ROOT / "logs"
-OUTPUT_DIR = PROJECT_ROOT / "output"
+OUTPUT_DIR = PROJECT_ROOT / "logs"
 
 # Data source configuration
 DATA_SOURCE_TYPE = os.getenv('DATA_SOURCE', 'file_watcher')  # 'kafka' or 'file_watcher'
