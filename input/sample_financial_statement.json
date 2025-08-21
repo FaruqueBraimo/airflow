@@ -1,0 +1,97 @@
+{
+  "statement_id": "STMT-2024-002",
+  "customer_id": "CUST-67890",
+  "statement_date": "2024-02-29T23:59:59Z",
+  "statement_type": "quarterly",
+  "customer_info": {
+    "customer_id": "CUST-67890",
+    "name": "Jane Smith",
+    "address": {
+      "street": "456 Oak Avenue",
+      "city": "Springfield",
+      "state": "IL",
+      "zip": "62701"
+    },
+    "email": "jane.smith@email.com",
+    "phone": "+1-555-987-6543"
+  },
+  "transactions": [
+    {
+      "transaction_id": "TXN-101",
+      "date": "2024-02-05T09:15:00Z",
+      "description": "Monthly Salary Deposit",
+      "amount": 4200.00,
+      "category": "Income",
+      "reference": "SALARY-FEB"
+    },
+    {
+      "transaction_id": "TXN-102",
+      "date": "2024-02-10T16:30:00Z",
+      "description": "Mortgage Payment",
+      "amount": -1850.00,
+      "category": "Housing",
+      "reference": "MORT-001"
+    },
+    {
+      "transaction_id": "TXN-103",
+      "date": "2024-02-15T11:45:00Z",
+      "description": "Grocery Shopping",
+      "amount": -245.75,
+      "category": "Food",
+      "reference": "GROC-456"
+    },
+    {
+      "transaction_id": "TXN-104",
+      "date": "2024-02-18T14:20:00Z",
+      "description": "Investment Dividend",
+      "amount": 325.50,
+      "category": "Investment",
+      "reference": "DIV-Q1"
+    },
+    {
+      "transaction_id": "TXN-105",
+      "date": "2024-02-22T10:00:00Z",
+      "description": "Electric Bill",
+      "amount": -156.80,
+      "category": "Utilities",
+      "reference": "ELEC-FEB"
+    },
+    {
+      "transaction_id": "TXN-106",
+      "date": "2024-02-25T13:10:00Z",
+      "description": "Car Insurance",
+      "amount": -89.99,
+      "category": "Insurance",
+      "reference": "AUTO-INS"
+    }
+  ],
+  "balances": {
+    "checking": {
+      "opening_balance": 2750.00,
+      "closing_balance": 4932.96,
+      "currency": "USD"
+    },
+    "savings": {
+      "opening_balance": 15000.00,
+      "closing_balance": 15325.50,
+      "currency": "USD"
+    },
+    "investment": {
+      "opening_balance": 8500.00,
+      "closing_balance": 8825.50,
+      "currency": "USD"
+    }
+  },
+  "totals": {
+    "total_credits": 4525.50,
+    "total_debits": 2342.54,
+    "net_change": 2182.96,
+    "transaction_count": 6
+  },
+  "metadata": {
+    "template_name": "quarterly",
+    "template_version": "1.0",
+    "currency": "USD",
+    "processing_timestamp": "2024-02-29T23:59:59Z"
+  }
+}
